@@ -1,3 +1,4 @@
+@import url("~leaflet/dist/leaflet.css");
 @import 'nullstyle';
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Helvetica&display=swap');
@@ -17,4 +18,32 @@ $font_header_info: 'Open Sans';
 /*  sizing of map container */
 .leaflet-container {
     height: 100vh;
+}
+
+.cluster-icon {
+    height: 3rem;
+    width: 3rem;
+    border-radius: 50%;
+    background-color: #fff;
+    transform: translate(-25%, -25%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 900;
+    font-size: 1.5rem;
+}
+
+.basemaps-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    height: auto;
+    width: auto;
+    border-radius: 4px;
+    background-color: white;
+    select {
+        width: 200px;
+        height: 20px;
+    }
 }

@@ -4,7 +4,7 @@ import { MapContainer, Marker, TileLayer, Popup } from "react-leaflet";
 import { Icon, divIcon, point } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import Basemap from "./Basemaps";
-import GeojsonLayer from "./GeojsonLayer";
+import GeojsonLayer from "./GeojsonLayerFunc";
 
 class MapComponent extends React.Component {
    state = {
@@ -87,7 +87,7 @@ class MapComponent extends React.Component {
             </div>
 
             {this.state.geojsonVisible && 
-               <GeojsonLayer url="geojson.json" />
+               <GeojsonLayer url="places.json" cluster={false}/>
             }
 
             <MarkerClusterGroup

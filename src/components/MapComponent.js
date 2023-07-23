@@ -4,13 +4,16 @@ import { MapContainer, Marker, TileLayer, Popup } from "react-leaflet";
 import { Icon, divIcon, point } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import Basemap from "./Basemaps";
+import GeojsonLayer from "./GeojsonLayer";
 
 class MapComponent extends React.Component {
    state = {
-      lat: 48.8566,
-      lng: 2.3522,
+      lat: 55.702868,
+      lng: 37.530865,
       zoom: 13,
       basemap: 'osm',
+
+      geojsonVisible: false,
    };
 
    onBMChange = (bm) => {
@@ -19,20 +22,26 @@ class MapComponent extends React.Component {
       })
    }
 
+   onGeojsonToogle = (e) => {
+      this.setState({
+         geojsonVisible: e.currentTarget.checked
+      })
+   }
+
    render() {
       let center = [this.state.lat, this.state.lng];
       // markers
       const markers = [
          {
-            geocode: [48.86, 2.3522],
+            geocode: [55.70, 37.530865],
             popUp: "Hello, I am pop up 1"
          },
          {
-            geocode: [48.85, 2.3522],
+            geocode: [55.67, 37.530865],
             popUp: "Hello, I am pop up 2"
          },
          {
-            geocode: [48.855, 2.34],
+            geocode: [55.675, 37.520865],
             popUp: "Hello, I am pop up 3"
          },
       ]
@@ -66,6 +75,20 @@ class MapComponent extends React.Component {
             />
 
             <Basemap basemap={this.state.basemap} onChange={this.onBMChange}/>
+
+            <div className="geojson-toggle">
+               <label htmlFor="layertoggle">Toggle Geojson </label>
+               <input type="checkbox"
+                  name="layertoggle"
+                  id="layertoggle"
+                  value={this.state.geojsonVisible}
+                  onChange={this.onGeojsonToogle}
+               />
+            </div>
+
+            {this.state.geojsonVisible && 
+               <GeojsonLayer url="geojson.json" />
+            }
 
             <MarkerClusterGroup
                chunkedLoading

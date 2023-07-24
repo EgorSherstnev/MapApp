@@ -5,6 +5,7 @@ import { Icon, divIcon, point } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import Basemap from "./Basemaps";
 import GeojsonLayer from "./GeojsonLayerFunc";
+import CoordInsert from "./CoordInsert";
 
 class MapComponent extends React.Component {
    state = {
@@ -15,6 +16,14 @@ class MapComponent extends React.Component {
 
       geojsonVisible: false,
    };
+
+   onCoordInsertChange = (lat, long, z) => {
+      this.setState({
+         lat: lat,
+         lng: long,
+         zoom: z,
+      });
+   }
 
    onBMChange = (bm) => {
       this.setState({
@@ -94,9 +103,14 @@ class MapComponent extends React.Component {
                chunkedLoading
                iconCreateFunction={createCustomClusterIcon}
             >
+               <CoordInsert onllzChange={this.onCoordInsertChange} />
+
                {markers.map(marker => (
                   <Marker position={marker.geocode} icon={customIcon}>
                      <Popup>
+                        Широта: {marker.geocode[0]}<br/>  
+                        Долгота: {marker.geocode[1]}<br/> 
+                        Масштаб: {this.state.zoom}<br/> 
                         {marker.popUp}
                      </Popup>
                   </Marker>

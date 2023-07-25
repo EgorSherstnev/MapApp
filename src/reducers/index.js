@@ -1,8 +1,8 @@
-/*import {combineReducers} from 'redux';
-import {reducer as formReducer} from 'redux-form';
-import authReducer from './authReducer';
+import { combineReducers } from "redux";
+import LayersReducer from "./layers";
 
-export default combineReducers({
-   auth: authReducer,
-   form: formReducer,
-});*/
+const allReducers = combineReducers({
+   layers: LayersReducer
+});
+
+export default allReducers;

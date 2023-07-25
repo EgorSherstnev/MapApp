@@ -1,9 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
-//import { Provider } from 'react-redux';
+import './css/style.css';
+import { Provider } from 'react-redux';
 //import { createStore, /*applyMiddleware*/ } from 'redux';
 //import reduxThunk from 'redux-thunk';
 import App from './App';
+import store from "./store";
 //import reducers from './reducers';
 
 /*const store = createStore(
@@ -13,9 +15,9 @@ import App from './App';
 
 ReactDOM.render(
 
-      //<Provider store={store}>
+      <Provider store={store}>
          <App />,
-      //</Provider>,
+      </Provider>,
 
    document.getElementById('root')
 );

@@ -1,10 +1,18 @@
 import React from "react";
-import { MapContainer, Marker, TileLayer, Popup } from "react-leaflet";
+import { 
+  MapContainer, 
+  Marker, 
+  TileLayer, 
+  Popup, 
+  ZoomControl, 
+  VideoOverlay  } from "react-leaflet";
 //import "leaflet/dist/leaflet.css"
 import { Icon, divIcon, point } from "leaflet";
 import Basemap from "./Basemaps";
-import GeojsonLayer from "./GeojsonLayerFunc";
+import GeojsonLayer from '../layers/GeojsonLayerFunc';
+import VelocityLayer from "../layers/VelocityLayer";
 import CoordInsert from "./CoordInsert";
+import { connect } from "react-redux";
 
 class MapComponent extends React.Component {
    state = {
@@ -54,6 +62,12 @@ class MapComponent extends React.Component {
          },
       ]
 
+      const layersTypes = {
+        'geojson': GeojsonLayer,
+        'velocityLayer': VelocityLayer,
+        'videoOverlay': VideoOverlay
+      }
+
       //basemap
       const basemapsDict = {
          osm: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -76,13 +90,33 @@ class MapComponent extends React.Component {
       }
 
       return (
-         <MapContainer key={`${this.state.lat}-${this.state.lng}-${this.state.zoom}`} center={center} zoom={this.state.zoom} >
+         <MapContainer 
+          key={`${this.state.lat}-${this.state.lng}-${this.state.zoom}`} 
+          zoomControl={false} 
+          center={center} 
+          zoom={this.state.zoom} 
+          minZoom={2} 
+          className="map"
+         >
+
+            <ZoomControl position={'bottomright'} />
+
             <TileLayer
                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                url={basemapsDict[this.state.basemap]}
             />
 
             <Basemap basemap={this.state.basemap} onChange={this.onBMChange}/>
+
+            {this.props.layers.map( l => {
+            if (l.visible) {
+              let LayerComp = layersTypes[l.type];
+              return (
+                <LayerComp key={l.id} {...l.options}/>
+              )
+            }
+          })}
+
 
             <div className="geojson-toggle">
                <label htmlFor="layertoggle">Toggle Geojson </label>
@@ -119,4 +153,10 @@ class MapComponent extends React.Component {
    }
 }
 
-export default MapComponent;
+const mapStateToProps = (state) => {
+  return {
+    layers: state.layers
+  };
+};
+
+export default connect(mapStateToProps)(MapComponent);
